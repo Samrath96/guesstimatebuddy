@@ -9,6 +9,7 @@ export default async function handler(req, res) {
 
     const models = [
       'gemini-3.1-flash-lite-preview',
+      'gemini-2.5-flash',
       'gemma-3-27b-it'
     ];
 
