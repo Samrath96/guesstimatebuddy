@@ -751,26 +751,29 @@ window.submitAnswer = async () => {
 
   // Agent 2: Coach
   const ideal = await callGemini(
-    `You are an expert interview coach. Show the ideal approach to solve this guesstimate.
+    `You are an expert interview coach.
+Return the answer in EXACT format:
 
-Format your answer clearly using:
+1. Segmentation:
+- point
+- point
 
-1. Segmentation (MECE breakdown)
-2. Assumptions (key numbers used)
-3. Calculation (step-by-step math)
-4. Final Answer (clear number)
+2. Assumptions:
+- point
+- point
 
-Use bullet points and line breaks.
-Keep it clean and readable.
+3. Calculation:
+- step
+- step
 
-Use these India reference numbers where relevant:
-- Total population: 143 crore | Urban: 35% | Rural: 65%
-- Average household size: 4-5 people
-- Working age (18-60): ~60% of population  
-- Major metro populations: Mumbai 2Cr, Delhi 2Cr, Bangalore 1.2Cr
+4. Final Answer:
+- final number
 
-Be concise — max 120 words.
-Do not use the word "MBB".`,
+Rules:
+- Use line breaks
+- Use "-" for bullets
+- Keep it clean and structured
+- Max 120 words`,
     `Question: ${currentQuestion}\nCandidate Answer: ${answer}`
   );
 
@@ -790,8 +793,17 @@ Do not use the word "MBB".`,
   document.getElementById('scoreBarFill').style.width = `${score * 10}%`;
   document.getElementById('scoreBarFill').style.background = scoreColor;
   document.getElementById('feedbackText').textContent = feedback;
-  document.getElementById('idealText').textContent = ideal;
 
+  
+  function formatIdeal(text) {
+    return text
+      .replace(/\*\*(.*?)\*\*/g, '<b>$1</b>')
+      .replace(/\n/g, '<br>')
+      .replace(/\d+\.\s/g, '<br><br><b>$&</b>')
+      .replace(/\*\s/g, '• ');
+  }
+
+  document.getElementById('idealText').innerHTML = formatIdeal(ideal);
   showScreen('screen-feedback');
 
   // Save to Firestore
