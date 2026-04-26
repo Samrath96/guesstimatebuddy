@@ -752,28 +752,40 @@ window.submitAnswer = async () => {
   // Agent 2: Coach
   const ideal = await callGemini(
     `You are an expert interview coach.
-Return the answer in EXACT format:
 
-1. Segmentation:
-- point
-- point
+Return the answer STRICTLY in clean HTML format.
 
-2. Assumptions:
-- point
-- point
+Use ONLY these tags:
+<h4>, <ul>, <li>, <p>
 
-3. Calculation:
-- step
-- step
+Structure EXACTLY like this:
 
-4. Final Answer:
-- final number
+<h4>1. Segmentation</h4>
+<ul>
+<li>Point</li>
+<li>Point</li>
+</ul>
+
+<h4>2. Assumptions</h4>
+<ul>
+<li>Point</li>
+<li>Point</li>
+</ul>
+
+<h4>3. Calculation</h4>
+<ul>
+<li>Step</li>
+<li>Step</li>
+</ul>
+
+<h4>4. Final Answer</h4>
+<p>Final estimate here</p>
 
 Rules:
-- Use line breaks
-- Use "-" for bullets
-- Keep it clean and structured
-- Max 120 words`,
+- No markdown
+- No ** symbols
+- No extra text
+- Clean spacing`,
     `Question: ${currentQuestion}\nCandidate Answer: ${answer}`
   );
 
@@ -803,8 +815,7 @@ Rules:
       .replace(/\*\s/g, '• ');
   }
 
-  document.getElementById('idealText').innerHTML = formatIdeal(ideal);
-  showScreen('screen-feedback');
+document.getElementById('idealText').innerHTML = ideal;  showScreen('screen-feedback');
 
   // Save to Firestore
   if (currentUser) {
