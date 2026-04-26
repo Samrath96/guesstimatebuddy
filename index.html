@@ -1,0 +1,917 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>GuestimateBuddy</title>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,400&family=DM+Sans:wght@300;400;500;600&family=DM+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg: #0E0C0A;
+  --surface: #161310;
+  --surface2: #1E1A16;
+  --border: #2A2420;
+  --gold: #C9943A;
+  --gold2: #E8B86D;
+  --cream: #F0E8D8;
+  --muted: #7A6E62;
+  --green: #4A9E6E;
+  --red: #C04A4A;
+  --amber: #C98A3A;
+  --text: #EDE5D8;
+}
+
+* { margin: 0; padding: 0; box-sizing: border-box; }
+
+body {
+  font-family: 'DM Sans', sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  min-height: 100vh;
+  background-image: 
+    radial-gradient(ellipse at 10% 20%, rgba(201,148,58,0.08) 0%, transparent 50%),
+    radial-gradient(ellipse at 90% 80%, rgba(201,148,58,0.05) 0%, transparent 50%);
+}
+
+/* ---- SCREENS ---- */
+.screen { display: none; min-height: 100vh; padding: 24px 20px; max-width: 600px; margin: 0 auto; }
+.screen.active { display: flex; flex-direction: column; }
+
+/* ---- LOGIN SCREEN ---- */
+#screen-login {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 0;
+}
+
+.logo-wrap { margin-bottom: 48px; }
+
+.logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 52px;
+  font-weight: 300;
+  color: var(--cream);
+  letter-spacing: -1px;
+  line-height: 1;
+}
+
+.logo span { color: var(--gold); font-style: italic; }
+
+.logo-sub {
+  font-size: 12px;
+  letter-spacing: 3px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-top: 8px;
+  font-weight: 300;
+}
+
+.divider {
+  width: 40px;
+  height: 1px;
+  background: var(--border);
+  margin: 32px auto;
+}
+
+.login-desc {
+  font-size: 14px;
+  color: var(--muted);
+  line-height: 1.7;
+  max-width: 280px;
+  margin: 0 auto 32px;
+  font-weight: 300;
+}
+
+.btn-google {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 24px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  width: 100%;
+  max-width: 280px;
+  transition: all 0.2s;
+}
+
+.btn-google:hover { border-color: var(--gold); }
+
+.google-icon { width: 18px; height: 18px; }
+
+/* ---- HOME SCREEN ---- */
+#screen-home { gap: 0; }
+
+.top-bar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding-bottom: 20px;
+  border-bottom: 1px solid var(--border);
+  margin-bottom: 28px;
+}
+
+.top-logo {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 22px;
+  font-weight: 400;
+  color: var(--gold);
+  font-style: italic;
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 12px;
+  color: var(--muted);
+}
+
+.user-avatar {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 1px solid var(--border);
+}
+
+.sign-out-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 11px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  padding: 4px 8px;
+  border-radius: 4px;
+  transition: color 0.2s;
+}
+
+.sign-out-btn:hover { color: var(--red); }
+
+.stats-row {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 10px;
+  margin-bottom: 28px;
+}
+
+.stat-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 10px;
+  text-align: center;
+}
+
+.stat-number {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 28px;
+  font-weight: 600;
+  color: var(--gold);
+  line-height: 1;
+}
+
+.stat-label {
+  font-size: 10px;
+  color: var(--muted);
+  margin-top: 4px;
+  letter-spacing: 0.5px;
+  text-transform: uppercase;
+}
+
+.start-btn {
+  width: 100%;
+  padding: 16px;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 15px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  letter-spacing: 0.3px;
+  margin-bottom: 24px;
+}
+
+.start-btn:hover { background: var(--gold2); }
+
+.history-title {
+  font-size: 11px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 12px;
+}
+
+.history-list { display: flex; flex-direction: column; gap: 8px; }
+
+.history-item {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 12px 14px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.history-q {
+  font-size: 12px;
+  color: var(--text);
+  flex: 1;
+  margin-right: 12px;
+  line-height: 1.4;
+  opacity: 0.8;
+}
+
+.history-score {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 600;
+  flex-shrink: 0;
+}
+
+.score-high { color: var(--green); }
+.score-mid { color: var(--amber); }
+.score-low { color: var(--red); }
+
+.empty-history {
+  text-align: center;
+  color: var(--muted);
+  font-size: 13px;
+  padding: 24px;
+  font-style: italic;
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+}
+
+/* ---- QUESTION SCREEN ---- */
+#screen-question { gap: 0; }
+
+.back-btn {
+  background: none;
+  border: none;
+  color: var(--muted);
+  font-size: 13px;
+  cursor: pointer;
+  font-family: 'DM Sans', sans-serif;
+  padding: 0;
+  margin-bottom: 24px;
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  transition: color 0.2s;
+}
+
+.back-btn:hover { color: var(--text); }
+
+.question-label {
+  font-size: 10px;
+  letter-spacing: 2.5px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 12px;
+  font-weight: 500;
+}
+
+.question-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-left: 3px solid var(--gold);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 24px;
+}
+
+.question-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  font-weight: 400;
+  line-height: 1.5;
+  color: var(--cream);
+}
+
+.answer-label {
+  font-size: 11px;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-bottom: 10px;
+}
+
+.mic-btn {
+  width: 100%;
+  padding: 13px;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-bottom: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+}
+
+.mic-btn:hover { border-color: var(--gold); }
+.mic-btn.listening { border-color: var(--red); color: var(--red); animation: pulse 1s infinite; }
+
+@keyframes pulse { 0%, 100% { opacity: 1; } 50% { opacity: 0.6; } }
+
+textarea {
+  width: 100%;
+  background: var(--surface2);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  color: var(--text);
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  padding: 12px;
+  resize: none;
+  min-height: 120px;
+  outline: none;
+  transition: border-color 0.2s;
+  line-height: 1.6;
+  margin-bottom: 14px;
+}
+
+textarea:focus { border-color: var(--gold); }
+textarea::placeholder { color: var(--muted); }
+
+.submit-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.submit-btn:hover { background: var(--gold2); }
+.submit-btn:disabled { opacity: 0.5; cursor: not-allowed; }
+
+/* ---- LOADING SCREEN ---- */
+#screen-loading {
+  justify-content: center;
+  align-items: center;
+  text-align: center;
+  gap: 20px;
+}
+
+.spinner {
+  width: 44px;
+  height: 44px;
+  border: 2px solid var(--border);
+  border-top-color: var(--gold);
+  border-radius: 50%;
+  animation: spin 0.9s linear infinite;
+}
+
+@keyframes spin { to { transform: rotate(360deg); } }
+
+.loading-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 20px;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* ---- FEEDBACK SCREEN ---- */
+#screen-feedback { gap: 0; }
+
+.feedback-header {
+  margin-bottom: 20px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border);
+}
+
+.feedback-q {
+  font-size: 11px;
+  color: var(--muted);
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  margin-bottom: 6px;
+}
+
+.feedback-q-text {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 16px;
+  color: var(--cream);
+  opacity: 0.7;
+  line-height: 1.4;
+}
+
+.feedback-card {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 16px;
+  margin-bottom: 12px;
+}
+
+.feedback-card-title {
+  font-size: 10px;
+  letter-spacing: 2px;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin-bottom: 10px;
+  font-weight: 500;
+}
+
+.score-display {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-bottom: 10px;
+}
+
+.score-big {
+  font-family: 'Cormorant Garamond', serif;
+  font-size: 48px;
+  font-weight: 600;
+  line-height: 1;
+}
+
+.score-denom {
+  font-size: 18px;
+  color: var(--muted);
+  font-family: 'Cormorant Garamond', serif;
+}
+
+.score-bar-wrap {
+  height: 3px;
+  background: var(--border);
+  border-radius: 2px;
+  overflow: hidden;
+  margin-bottom: 12px;
+}
+
+.score-bar-fill {
+  height: 100%;
+  border-radius: 2px;
+  transition: width 1s ease;
+}
+
+.feedback-text {
+  font-size: 13px;
+  line-height: 1.7;
+  color: var(--text);
+  opacity: 0.85;
+}
+
+.ideal-text {
+  font-size: 13px;
+  line-height: 1.8;
+  color: var(--text);
+  opacity: 0.85;
+  font-family: 'DM Mono', monospace;
+  font-size: 12px;
+}
+
+.try-again-btn {
+  width: 100%;
+  padding: 15px;
+  background: var(--gold);
+  color: var(--bg);
+  border: none;
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 4px;
+}
+
+.try-again-btn:hover { background: var(--gold2); }
+
+.home-link-btn {
+  width: 100%;
+  padding: 12px;
+  background: transparent;
+  color: var(--muted);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  font-family: 'DM Sans', sans-serif;
+  font-size: 13px;
+  cursor: pointer;
+  transition: all 0.2s;
+  margin-top: 8px;
+}
+
+.home-link-btn:hover { border-color: var(--gold); color: var(--gold); }
+
+.credits {
+  text-align: center;
+  font-size: 10px;
+  color: var(--muted);
+  padding: 24px 0 8px;
+  opacity: 0.6;
+  letter-spacing: 0.3px;
+}
+</style>
+</head>
+<body>
+
+<!-- SCREEN: LOGIN -->
+<div class="screen active" id="screen-login">
+  <div class="logo-wrap">
+    <div class="logo">Guestimate<span>Buddy</span></div>
+    <div class="logo-sub">Sharpen your estimation skills</div>
+  </div>
+  <div class="divider"></div>
+  <p class="login-desc">Practice guesstimate questions the way they're asked in real interviews. Get instant feedback and track your progress.</p>
+  <button class="btn-google" onclick="signInWithGoogle()">
+    <svg class="google-icon" viewBox="0 0 24 24">
+      <path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/>
+      <path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/>
+      <path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.07H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.93l2.85-2.22.81-.62z"/>
+      <path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.07l3.66 2.84c.87-2.6 3.3-4.53 6.16-4.53z"/>
+    </svg>
+    Continue with Google
+  </button>
+  <div class="credits">Case frameworks inspired by FMS Consulting Casebook 2023–24</div>
+</div>
+
+<!-- SCREEN: HOME -->
+<div class="screen" id="screen-home">
+  <div class="top-bar">
+    <div class="top-logo">GuestimateBuddy</div>
+    <div class="user-info">
+      <img class="user-avatar" id="userAvatar" src="" alt="">
+      <button class="sign-out-btn" onclick="signOut()">Sign out</button>
+    </div>
+  </div>
+
+  <div class="stats-row">
+    <div class="stat-card">
+      <div class="stat-number" id="statTotal">0</div>
+      <div class="stat-label">Attempts</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="statAvg">—</div>
+      <div class="stat-label">Avg Score</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-number" id="statBest">—</div>
+      <div class="stat-label">Best</div>
+    </div>
+  </div>
+
+  <button class="start-btn" onclick="startPractice()">Start Practice →</button>
+
+  <div class="history-title">Recent Sessions</div>
+  <div class="history-list" id="historyList">
+    <div class="empty-history">No sessions yet — start your first practice</div>
+  </div>
+
+  <div class="credits">Case frameworks inspired by FMS Consulting Casebook 2023–24</div>
+</div>
+
+<!-- SCREEN: QUESTION -->
+<div class="screen" id="screen-question">
+  <button class="back-btn" onclick="showScreen('screen-home')">← Back</button>
+  <div class="question-label">Your Question</div>
+  <div class="question-card">
+    <div class="question-text" id="questionText">Loading your question...</div>
+  </div>
+  <div class="answer-label">Your Answer</div>
+  <button class="mic-btn" id="micBtn" onclick="toggleMic()">🎤 Tap to speak your answer</button>
+  <textarea id="answerBox" placeholder="Or type your answer here... Walk through your approach step by step."></textarea>
+  <button class="submit-btn" id="submitBtn" onclick="submitAnswer()">Evaluate My Answer →</button>
+</div>
+
+<!-- SCREEN: LOADING -->
+<div class="screen" id="screen-loading">
+  <div class="spinner"></div>
+  <div class="loading-text">Your buddy is thinking...</div>
+</div>
+
+<!-- SCREEN: FEEDBACK -->
+<div class="screen" id="screen-feedback">
+  <div class="feedback-header">
+    <div class="feedback-q">Question</div>
+    <div class="feedback-q-text" id="feedbackQ"></div>
+  </div>
+
+  <div class="feedback-card">
+    <div class="feedback-card-title">Your Score</div>
+    <div class="score-display">
+      <div class="score-big" id="scoreBig">—</div>
+      <div class="score-denom">/10</div>
+    </div>
+    <div class="score-bar-wrap">
+      <div class="score-bar-fill" id="scoreBarFill" style="width:0%"></div>
+    </div>
+    <div class="feedback-text" id="feedbackText"></div>
+  </div>
+
+  <div class="feedback-card">
+    <div class="feedback-card-title">Ideal Approach</div>
+    <div class="ideal-text" id="idealText"></div>
+  </div>
+
+  <button class="try-again-btn" onclick="startPractice()">Try Another Question →</button>
+  <button class="home-link-btn" onclick="showScreen('screen-home')">← Back to Home</button>
+
+  <div class="credits">Case frameworks inspired by FMS Consulting Casebook 2023–24</div>
+</div>
+
+<!-- Firebase + App Logic -->
+<script type="module">
+import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
+import {
+  getAuth,
+  GoogleAuthProvider,
+  signInWithRedirect,
+  getRedirectResult,
+  signInWithPopup,
+  signOut as fbSignOut,
+  onAuthStateChanged
+} from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getFirestore, collection, addDoc, query, where, orderBy, limit, getDocs, serverTimestamp }
+  from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+
+const firebaseConfig = {
+  apiKey: "AIzaSyDOAlZimGlofylq0XE_wxtz1T-ZBFPeVJE",
+  authDomain: "guesstimatebuddy-fa941.firebaseapp.com",
+  projectId: "guesstimatebuddy-fa941",
+  storageBucket: "guesstimatebuddy-fa941.firebasestorage.app",
+  messagingSenderId: "7501792540",
+  appId: "1:7501792540:web:7ee2bafeccca22dc9be6d9"
+};
+
+const app = initializeApp(firebaseConfig);
+const auth = getAuth(app);
+const db = getFirestore(app);
+const provider = new GoogleAuthProvider();
+provider.setCustomParameters({
+  prompt: "select_account"
+});
+
+let currentUser = null;
+let currentQuestion = '';
+
+// ---- Auth State ----
+let authInitialized = false;
+
+onAuthStateChanged(auth, user => {
+  console.log("Auth state:", user);
+
+  if (user) {
+    currentUser = user;
+    document.getElementById('userAvatar').src = user.photoURL || '';
+    loadHistory();
+    showScreen('screen-home');
+  } else {
+    currentUser = null;
+    showScreen('screen-login');
+  }
+
+  authInitialized = true;
+});
+
+// ---- Sign In ----
+window.signInWithGoogle = async () => {
+  try {
+    const result = await signInWithPopup(auth, provider);
+    console.log("Login success:", result.user);
+  } catch (e) {
+    console.error("LOGIN ERROR:", e);
+    alert(e.message);
+  }
+};
+
+// ---- Sign Out ----
+window.signOut = async () => {
+  await fbSignOut(auth);
+};
+
+// ---- Show Screen ----
+window.showScreen = (id) => {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0, 0);
+};
+
+// ---- Start Practice ----
+window.startPractice = async () => {
+  showScreen('screen-loading');
+  document.getElementById('answerBox').value = '';
+
+  const question = await callGemini(
+    `You are an interviewer at a top consulting firm. Generate ONE guesstimate question set in India. 
+     Examples: number of cars in Delhi, daily revenue of a chai stall in Mumbai, number of ATMs in India, 
+     number of weddings per day in India, litres of milk consumed in Mumbai daily.
+     Return ONLY the question. No preamble, no numbering, no explanation.`,
+    "Generate a guesstimate question.Refer to Casebooks and past consulting inteview questions"
+  );
+
+  currentQuestion = question;
+  document.getElementById('questionText').textContent = question;
+  showScreen('screen-question');
+};
+
+// ---- Submit Answer ----
+window.submitAnswer = async () => {
+  const answer = document.getElementById('answerBox').value.trim();
+  if (!answer) { alert('Please speak or type your answer first.'); return; }
+
+  showScreen('screen-loading');
+
+  // Agent 1: Evaluator
+  const evaluation = await callGemini(
+    `You are a strict interviewer evaluating a candidate's guesstimate answer. 
+     Evaluate on: 1) Structure — did they segment the problem clearly using MECE or top-down approach? 
+     2) Logic — are the assumptions reasonable and stated explicitly? 
+     3) Communication — is the approach clear and confident?
+     Give a score out of 10 and write 2-3 sentences of specific, honest feedback.
+     Format your response EXACTLY as: Score: X/10 | Feedback: [your feedback here]
+     Be honest. A disorganised answer should score 3-4. A structured one with good assumptions scores 7-8. Exceptional gets 9-10.`,
+    `Question: ${currentQuestion}\nCandidate Answer: ${answer}`
+  );
+
+  // Agent 2: Coach
+  const ideal = await callGemini(
+    `You are an expert interview coach. Show the ideal approach to solve this guesstimate.
+     Use these India reference numbers where relevant:
+     - Total population: 143 crore | Urban: 35% | Rural: 65%
+     - Average household size: 4-5 people
+     - Working age (18-60): ~60% of population  
+     - Major metro populations: Mumbai 2Cr, Delhi 2Cr, Bangalore 1.2Cr
+     Show a clear step-by-step calculation. Use MECE segmentation.
+     Be concise — max 120 words. End with the final estimated number.
+     Do not use the word "MBB" anywhere.`,
+    `Question: ${currentQuestion}\nCandidate Answer: ${answer}`
+  );
+
+  // Parse score
+  const scoreMatch = evaluation.match(/Score:\s*(\d+)\/10/i);
+  const score = scoreMatch ? parseInt(scoreMatch[1]) : 5;
+  const feedbackMatch = evaluation.match(/Feedback:\s*(.+)/is);
+  const feedback = feedbackMatch ? feedbackMatch[1].trim() : evaluation;
+
+  // Score color
+  const scoreColor = score >= 8 ? 'var(--green)' : score >= 5 ? 'var(--amber)' : 'var(--red)';
+
+  // Render feedback
+  document.getElementById('feedbackQ').textContent = currentQuestion;
+  document.getElementById('scoreBig').textContent = score;
+  document.getElementById('scoreBig').style.color = scoreColor;
+  document.getElementById('scoreBarFill').style.width = `${score * 10}%`;
+  document.getElementById('scoreBarFill').style.background = scoreColor;
+  document.getElementById('feedbackText').textContent = feedback;
+  document.getElementById('idealText').textContent = ideal;
+
+  showScreen('screen-feedback');
+
+  // Save to Firestore
+  if (currentUser) {
+    try {
+      await addDoc(collection(db, 'sessions'), {
+        uid: currentUser.uid,
+        question: currentQuestion,
+        answer,
+        score,
+        feedback,
+        ideal,
+        createdAt: serverTimestamp()
+      });
+      loadHistory();
+    } catch (e) { console.error('Save failed:', e); }
+  }
+};
+
+// ---- Load History ----
+async function loadHistory() {
+  if (!currentUser) return;
+  try {
+    const q = query(
+      collection(db, 'sessions'),
+      where('uid', '==', currentUser.uid),
+      orderBy('createdAt', 'desc'),
+      limit(10)
+    );
+    const snap = await getDocs(q);
+    const sessions = [];
+    snap.forEach(doc => sessions.push(doc.data()));
+
+    // Stats
+    document.getElementById('statTotal').textContent = sessions.length;
+    if (sessions.length > 0) {
+      const avg = (sessions.reduce((s, d) => s + d.score, 0) / sessions.length).toFixed(1);
+      const best = Math.max(...sessions.map(d => d.score));
+      document.getElementById('statAvg').textContent = avg;
+      document.getElementById('statBest').textContent = best;
+    }
+
+    // History list
+    const list = document.getElementById('historyList');
+    if (sessions.length === 0) {
+      list.innerHTML = '<div class="empty-history">No sessions yet — start your first practice</div>';
+      return;
+    }
+    list.innerHTML = sessions.map(s => {
+      const cls = s.score >= 8 ? 'score-high' : s.score >= 5 ? 'score-mid' : 'score-low';
+      const q = s.question.length > 60 ? s.question.substring(0, 60) + '...' : s.question;
+      return `<div class="history-item">
+        <div class="history-q">${q}</div>
+        <div class="history-score ${cls}">${s.score}/10</div>
+      </div>`;
+    }).join('');
+  } catch (e) { console.error('History load failed:', e); }
+}
+
+// ---- Speech to Text ----
+let recognition = null;
+let listening = false;
+
+window.toggleMic = () => {
+  if (!('webkitSpeechRecognition' in window) && !('SpeechRecognition' in window)) {
+    alert('Speech recognition not supported. Please use Chrome and type your answer.');
+    return;
+  }
+  if (listening) {
+    recognition.stop();
+    return;
+  }
+  const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
+  recognition = new SR();
+  recognition.lang = 'en-IN';
+  recognition.continuous = false;
+  recognition.interimResults = false;
+
+  recognition.onstart = () => {
+    listening = true;
+    const btn = document.getElementById('micBtn');
+    btn.textContent = '🔴 Listening... tap to stop';
+    btn.classList.add('listening');
+  };
+
+  recognition.onresult = e => {
+    document.getElementById('answerBox').value = e.results[0][0].transcript;
+  };
+
+  recognition.onend = () => {
+    listening = false;
+    const btn = document.getElementById('micBtn');
+    btn.textContent = '🎤 Tap to speak your answer';
+    btn.classList.remove('listening');
+  };
+
+  recognition.start();
+};
+
+// ---- Gemini API Call (via Netlify Function) ----
+async function callGemini(systemInstruction, userMessage) {
+  try {
+    console.log("🚀 Calling Gemini API...");
+
+    const response = await fetch('/api/gemini', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ systemInstruction, userMessage })
+    });
+
+    console.log("📡 Status:", response.status);
+
+    const data = await response.json();
+    console.log("📦 Response:", data);
+
+    if (!response.ok) {
+      throw new Error(data.error || "API request failed");
+    }
+
+    if (!data.text) {
+      throw new Error("No text returned from API");
+    }
+
+    return data.text;
+
+  } catch (error) {
+    console.error("❌ Gemini Error:", error);
+    alert("Error: " + error.message);
+    return "Error occurred. Check console.";
+  }
+}
+</script>
+</body>
+</html>
