@@ -1,0 +1,17 @@
+{
+  "name": "guesstimatebuddy",
+  "version": "1.0.0",
+  "description": "GuestimateBuddy - A guesstimation training app",
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev",
+    "build": "echo 'No build step needed for static site'",
+    "test": "echo 'No tests configured'"
+  },
+  "keywords": ["guesstimation", "training", "estimation"],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@vercel/analytics": "^1.4.1"
+  }
+}
