@@ -8,7 +8,7 @@ export default async function handler(req, res) {
     const GEMINI_KEY = process.env.GEMINI_API_KEY;
 
     const models = [
-      'gemini-3.1-flash-lite-preview',
+      'gemini-3.1-flash-lite',
       'gemini-2.5-flash',
       'gemma-3-27b-it'
     ];
