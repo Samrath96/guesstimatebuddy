@@ -20,45 +20,40 @@ body {
 .screen { display: none; min-height: 100vh; padding: 24px 20px; max-width: 600px; margin: 0 auto; }
 .screen.active { display: flex; flex-direction: column; }
 
-/* LOGO */
-.logo-wrap { margin-bottom: 48px; text-align: center; }
+/* TOP BAR & LOGO */
+.top-bar { display: flex; justify-content: space-between; align-items: center; padding-bottom: 20px; border-bottom: 1px solid var(--border); margin-bottom: 28px; }
+.top-logo { font-family: 'Cormorant Garamond', serif; font-size: 22px; color: var(--gold); font-style: italic; }
+.user-info { display: flex; align-items: center; gap: 12px; }
+.user-avatar { width: 28px; height: 28px; border-radius: 50%; border: 1px solid var(--border); }
+.sign-out-btn { background: none; border: none; color: var(--muted); font-size: 11px; cursor: pointer; font-family: 'DM Sans', sans-serif; padding: 4px 8px; border-radius: 4px; transition: color 0.2s; }
+.sign-out-btn:hover { color: var(--red); }
+
+.logo-wrap { margin-bottom: 48px; text-align: center; margin-top: 20vh; }
 .logo { font-family: 'Cormorant Garamond', serif; font-size: 52px; font-weight: 300; color: var(--cream); letter-spacing: -1px; }
 .logo span { color: var(--gold); font-style: italic; }
 .logo-sub { font-size: 12px; letter-spacing: 3px; text-transform: uppercase; color: var(--muted); margin-top: 8px; }
 
-/* TIMER UI */
-.timer-container {
-  display: flex; justify-content: space-between; align-items: center;
-  margin-bottom: 15px; background: var(--surface2); padding: 10px 15px;
-  border-radius: 8px; border: 1px solid var(--border);
-}
+/* TIMER */
+.timer-container { display: flex; justify-content: space-between; align-items: center; margin-bottom: 15px; background: var(--surface2); padding: 10px 15px; border-radius: 8px; border: 1px solid var(--border); }
 .timer-label { font-size: 10px; color: var(--muted); text-transform: uppercase; letter-spacing: 1px; }
 .timer-value { font-family: 'DM Mono', monospace; color: var(--gold); font-weight: 600; }
 
-/* BUTTONS */
-.btn-google, .start-btn, .submit-btn, .try-again-btn { 
-  width: 100%; padding: 15px; border-radius: 10px; font-weight: 600; cursor: pointer; transition: 0.2s; border: none; font-family: inherit;
-}
-.btn-google { background: var(--surface2); color: var(--text); border: 1px solid var(--border); display: flex; align-items: center; justify-content: center; gap: 10px; }
-.start-btn, .submit-btn, .try-again-btn { background: var(--gold); color: var(--bg); }
+/* STATS & HISTORY */
 .stat-card { background: var(--surface); border: 1px solid var(--border); border-radius: 10px; padding: 14px 10px; text-align: center; }
 .stat-number { font-family: 'Cormorant Garamond', serif; font-size: 28px; color: var(--gold); }
 .history-item { background: var(--surface); border: 1px solid var(--border); border-radius: 8px; padding: 12px 14px; display: flex; justify-content: space-between; align-items: center; margin-bottom: 8px; }
+.score-high { color: var(--green); } .score-mid { color: var(--amber); } .score-low { color: var(--red); }
 
-/* TEXTAREA & MIC */
+/* UI ELEMENTS */
+.start-btn, .submit-btn, .try-again-btn { width: 100%; padding: 16px; background: var(--gold); color: var(--bg); border: none; border-radius: 10px; font-family: 'DM Sans', sans-serif; font-size: 15px; font-weight: 600; cursor: pointer; transition: all 0.2s; margin-bottom: 24px; }
+.start-btn:hover { background: var(--gold2); }
 textarea { width: 100%; background: var(--surface2); border: 1px solid var(--border); border-radius: 8px; color: var(--text); padding: 12px; min-height: 120px; outline: none; margin-bottom: 14px; line-height: 1.6; }
-.mic-btn { width: 100%; padding: 12px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; cursor: pointer; margin-bottom: 10px; transition: all 0.2s; }
-
-/* LOADING */
+.mic-btn { width: 100%; padding: 12px; background: var(--surface2); border: 1px solid var(--border); color: var(--text); border-radius: 8px; cursor: pointer; margin-bottom: 10px; font-family: inherit; }
 .spinner { width: 44px; height: 44px; border: 2px solid var(--border); border-top-color: var(--gold); border-radius: 50%; animation: spin 0.9s linear infinite; margin: 0 auto 20px; }
 @keyframes spin { to { transform: rotate(360deg); } }
 #loadingStatus { font-family: 'Cormorant Garamond', serif; font-size: 18px; color: var(--muted); font-style: italic; text-align: center; }
-
-/* FEEDBACK STYLES */
-.score-high { color: var(--green); } .score-mid { color: var(--amber); } .score-low { color: var(--red); }
-.ideal-text h4 { color: var(--gold); margin: 15px 0 8px; font-size: 14px; text-transform: uppercase; letter-spacing: 1px; }
+.ideal-text h4 { color: var(--gold); margin: 15px 0 8px; font-size: 14px; text-transform: uppercase; }
 .ideal-text ul { padding-left: 18px; margin-bottom: 10px; color: rgba(237, 229, 216, 0.8); }
-.ideal-text li { margin-bottom: 4px; }
 </style>
 </head>
 <body>
@@ -69,20 +64,25 @@ textarea { width: 100%; background: var(--surface2); border: 1px solid var(--bor
     <div class="logo">Guestimate<span>Buddy</span></div>
     <div class="logo-sub">Sharpen your estimation skills</div>
   </div>
-  <button class="btn-google" onclick="signInWithGoogle()">Continue with Google</button>
+  <button class="start-btn" style="background:var(--surface2); color:var(--text); border:1px solid var(--border);" onclick="signInWithGoogle()">Continue with Google</button>
 </div>
 
 <!-- SCREEN: HOME -->
 <div class="screen" id="screen-home">
-  <div style="display:flex; justify-content:space-between; margin-bottom:28px; align-items:center;">
-    <div style="font-family:'Cormorant Garamond'; color:var(--gold); font-style:italic; font-size:22px;">GuestimateBuddy</div>
-    <img id="userAvatar" src="" style="width:28px; height:28px; border-radius:50%; border:1px solid var(--border);">
+  <div class="top-bar">
+    <div class="top-logo">GuestimateBuddy</div>
+    <div class="user-info">
+      <img class="user-avatar" id="userAvatar" src="">
+      <button class="sign-out-btn" onclick="signOut()">Sign out</button>
+    </div>
   </div>
+  
   <div style="display:grid; grid-template-columns:1fr 1fr 1fr; gap:10px; margin-bottom:28px;">
     <div class="stat-card"><div class="stat-number" id="statTotal">0</div><div style="font-size:10px; color:var(--muted); letter-spacing:1px;">ATTEMPTS</div></div>
     <div class="stat-card"><div class="stat-number" id="statAvg">—</div><div style="font-size:10px; color:var(--muted); letter-spacing:1px;">AVG SCORE</div></div>
     <div class="stat-card"><div class="stat-number" id="statBest">—</div><div style="font-size:10px; color:var(--muted); letter-spacing:1px;">BEST</div></div>
   </div>
+  
   <button class="start-btn" onclick="startPractice()">Start Practice →</button>
   <div style="font-size:11px; color:var(--muted); margin-bottom:12px; letter-spacing:2px; text-transform:uppercase;">Recent Sessions</div>
   <div id="historyList"></div>
@@ -133,7 +133,7 @@ textarea { width: 100%; background: var(--surface2); border: 1px solid var(--bor
 
 <script type="module">
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-import { getAuth, GoogleAuthProvider, signInWithPopup, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
+import { getAuth, GoogleAuthProvider, signInWithPopup, signOut as fbSignOut, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-auth.js";
 import { getFirestore, collection, addDoc, query, where, limit, getDocs, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
 const firebaseConfig = {
@@ -169,6 +169,7 @@ onAuthStateChanged(auth, user => {
 });
 
 window.signInWithGoogle = () => signInWithPopup(auth, provider);
+window.signOut = () => fbSignOut(auth);
 
 window.showScreen = (id) => {
   document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
@@ -190,20 +191,17 @@ window.startPractice = async () => {
   secondsElapsed = 0;
   document.getElementById('stopwatch').textContent = "00:00";
   
-  // 1. Get recent questions from UI to avoid repeats
+  // Anti-repeat logic
   const historyItems = document.querySelectorAll('.history-item-q-text');
   const pastQuestions = Array.from(historyItems).map(el => el.textContent).join(", ");
 
-  // 2. High-Quality Senior Partner Prompt
   const question = await callGemini(
-    `You are a Senior Partner at an MBB consulting firm (McKinsey, BCG, or Bain). 
-     Generate a realistic, challenging guesstimate question set in the Indian context.
+    `You are a Senior Partner at an MBB consulting firm. Generate a realistic, challenging guesstimate question set in the Indian context.
      STRICT RULES:
      - DO NOT repeat any of these recent questions: [${pastQuestions}]
      - Rotate between sectors: FMCG, Tech, Infra, Transport, Healthcare, or Luxury.
-     - Ensure multi-layered logic (income segmenting, etc.).
      - Return ONLY the question text.`,
-    "Generate a high-quality MBB guesstimate question for India."
+    "Generate a unique high-quality MBB guesstimate question."
   );
 
   clearInterval(loader);
@@ -222,7 +220,7 @@ window.startPractice = async () => {
 
 window.submitAnswer = async () => {
   const answer = document.getElementById('answerBox').value.trim();
-  if (!answer) return alert("Please speak or type your answer first.");
+  if (!answer) return alert("Please type your answer.");
   
   clearInterval(timerInterval);
   showScreen('screen-loading');
@@ -230,8 +228,7 @@ window.submitAnswer = async () => {
 
   try {
     const evaluation = await callGemini(
-      `You are a strict interviewer evaluating a candidate's guesstimate answer. 
-       Format response EXACTLY as: Score: X/10 | Feedback: [your feedback here]`,
+      `You are a strict interviewer evaluating a candidate's answer. Format response EXACTLY as: Score: X/10 | Feedback: [feedback]`,
       `Question: ${currentQuestion}\nCandidate Answer: ${answer}`
     );
 
@@ -240,10 +237,8 @@ window.submitAnswer = async () => {
       `Question: ${currentQuestion}\nCandidate Answer: ${answer}`
     );
 
-    const scoreMatch = evaluation.match(/Score:\s*(\d+)/);
-    const score = parseInt(scoreMatch ? scoreMatch[1] : 5);
-    const feedbackMatch = evaluation.match(/Feedback:\s*(.+)/is);
-    const feedback = feedbackMatch ? feedbackMatch[1].trim() : evaluation;
+    const score = parseInt(evaluation.match(/Score:\s*(\d+)/)?.[1] || 5);
+    const feedback = evaluation.split('|')[1]?.replace('Feedback:', '').trim() || evaluation;
 
     document.getElementById('feedbackQ').textContent = currentQuestion;
     document.getElementById('scoreBig').textContent = score;
@@ -254,47 +249,24 @@ window.submitAnswer = async () => {
     showScreen('screen-feedback');
 
     if (currentUser) {
-      await addDoc(collection(db, 'sessions'), { 
-          uid: currentUser.uid, 
-          question: currentQuestion, 
-          score, 
-          createdAt: serverTimestamp() 
-      });
+      await addDoc(collection(db, 'sessions'), { uid: currentUser.uid, question: currentQuestion, score, createdAt: serverTimestamp() });
       loadHistory();
     }
-  } catch (e) { 
-      alert("Error analyzing. Try again."); 
-      showScreen('screen-home'); 
-  } finally { 
-      clearInterval(loader); 
-  }
+  } catch (e) { alert("Error analyzing. Try again."); showScreen('screen-home'); }
+  finally { clearInterval(loader); }
 };
 
 async function loadHistory() {
   if (!currentUser) return;
   try {
-    // REMOVED orderBy TO AVOID INDEX REQUIREMENT
-    const q = query(
-        collection(db, 'sessions'), 
-        where('uid', '==', currentUser.uid), 
-        limit(20)
-    );
-    
+    const q = query(collection(db, 'sessions'), where('uid', '==', currentUser.uid), limit(20));
     const snap = await getDocs(q);
     const list = document.getElementById('historyList');
     let sessions = [];
-    
-    snap.forEach(d => {
-        const data = d.data();
-        sessions.push(data);
-    });
+    snap.forEach(d => sessions.push(d.data()));
 
-    // CLIENT-SIDE SORTING (Solves the index issue)
-    sessions.sort((a, b) => {
-        const dateA = a.createdAt?.toMillis() || 0;
-        const dateB = b.createdAt?.toMillis() || 0;
-        return dateB - dateA;
-    });
+    // Client-side sorting (Removes need for index)
+    sessions.sort((a, b) => (b.createdAt?.toMillis() || 0) - (a.createdAt?.toMillis() || 0));
 
     if (sessions.length > 0) {
       document.getElementById('statTotal').textContent = sessions.length;
@@ -304,11 +276,11 @@ async function loadHistory() {
 
     list.innerHTML = sessions.slice(0, 5).map(s => `
       <div class="history-item">
-        <div class="history-item-q-text" style="font-size:12px; opacity:0.8; color:var(--text); line-height:1.4;">${s.question.substring(0,50)}...</div>
+        <div class="history-item-q-text" style="font-size:12px; opacity:0.8;">${s.question.substring(0,50)}...</div>
         <div class="${s.score>=8?'score-high':s.score>=5?'score-mid':'score-low'}" style="font-family:'Cormorant Garamond'; font-size:20px; font-weight:600;">${s.score}/10</div>
       </div>
-    `).join('') || '<div style="text-align:center; color:var(--muted); padding:20px; font-style:italic;">No sessions yet.</div>';
-  } catch (e) { console.error("History load failed:", e); }
+    `).join('') || '<div style="text-align:center; padding:20px; font-style:italic; color:var(--muted);">No sessions yet.</div>';
+  } catch (e) { console.log("History failed:", e); }
 }
 
 async function callGemini(systemInstruction, userMessage) {
@@ -323,19 +295,11 @@ async function callGemini(systemInstruction, userMessage) {
 
 window.toggleMic = () => {
   const SR = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SR) return alert("Use Chrome for Speech Recognition.");
+  if (!SR) return alert("Use Chrome.");
   const rec = new SR(); rec.lang = 'en-IN';
-  rec.onstart = () => {
-    const btn = document.getElementById('micBtn');
-    btn.textContent = "🔴 Listening... tap to stop";
-    btn.style.color = "var(--red)";
-  };
+  rec.onstart = () => document.getElementById('micBtn').textContent = "🔴 Listening...";
   rec.onresult = e => document.getElementById('answerBox').value = e.results[0][0].transcript;
-  rec.onend = () => {
-    const btn = document.getElementById('micBtn');
-    btn.textContent = "🎤 Tap to speak your answer";
-    btn.style.color = "var(--text)";
-  };
+  rec.onend = () => document.getElementById('micBtn').textContent = "🎤 Tap to speak your answer";
   rec.start();
 };
 </script>
